@@ -1,0 +1,173 @@
+/* Report Forms CSS */
+
+.form-page-root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.form-page-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: var(--space-4);
+}
+
+.form-page-header h2 {
+  font-size: 1.5rem;
+  font-weight: 850;
+  color: var(--text-primary);
+}
+
+.form-page-header p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.form-error-banner {
+  background-color: var(--color-lost-bg);
+  border: 1px solid var(--color-lost);
+  color: var(--color-lost);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: fadeIn 0.2s ease;
+}
+
+.post-item-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+@media (min-width: 640px) {
+  .form-row {
+    flex-direction: row;
+  }
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.form-textarea {
+  font-family: inherit;
+  resize: vertical;
+}
+
+.form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 2.5rem !important;
+}
+[data-theme='light'] .form-select {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+}
+
+/* Image Upload Zone */
+.image-upload-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-8);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  background-color: rgba(15, 23, 42, 0.2);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+  text-align: center;
+}
+[data-theme='light'] .image-upload-zone {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.image-upload-zone:hover {
+  border-color: var(--primary-light);
+  background-color: var(--bg-card-hover);
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+.upload-icon {
+  color: var(--text-muted);
+}
+
+.image-upload-zone span {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.image-upload-zone p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Image Preview */
+.image-preview-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.uploaded-image-preview {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+}
+
+.clear-image-btn {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  background-color: rgba(9, 13, 22, 0.8) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.clear-image-btn:hover {
+  background-color: #f43f5e !important;
+  border-color: #f43f5e !important;
+}
+
+/* Note info */
+.form-info-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: rgba(79, 70, 229, 0.05);
+  border: 1px solid rgba(79, 70, 229, 0.15);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+}
+
+.form-info-note span {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Form Actions */
+.form-action-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-4);
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--space-4);
+}

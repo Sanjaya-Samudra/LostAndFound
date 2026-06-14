@@ -1,0 +1,241 @@
+/* Admin Overview CSS */
+
+.admin-root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.admin-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: var(--space-4);
+}
+
+.admin-title-row h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.admin-title-row p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: var(--secondary-dark);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.05em;
+}
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+@media (min-width: 1200px) {
+  .admin-layout {
+    grid-template-columns: 1fr 1fr;
+    align-items: flex-start;
+  }
+}
+
+/* Chart card */
+.admin-chart-card {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-chart-card h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.chart-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-6);
+}
+
+.bar-chart-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 200px;
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: var(--space-6);
+  padding-top: var(--space-6);
+}
+
+.chart-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 60px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bar-value {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.chart-bar {
+  width: 32px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: height 0.5s ease;
+  min-height: 10px;
+}
+
+.bar-lost {
+  background: linear-gradient(to top, var(--color-lost), #fda4af);
+  box-shadow: 0 0 10px rgba(244, 63, 94, 0.2);
+}
+
+.bar-found {
+  background: linear-gradient(to top, var(--color-found), #6ee7b7);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+}
+
+.bar-claimed {
+  background: linear-gradient(to top, var(--color-claimed), #93c5fd);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+.bar-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.chart-details-row {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin-top: auto;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 850;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+/* Lists Pane */
+.admin-lists-pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.admin-list-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: var(--space-2);
+}
+
+.card-header-row h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.admin-list-card .list-container {
+  max-height: 280px;
+}
+
+.admin-list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-list-card .list-container .admin-list-row:last-child {
+  border-bottom: none;
+}
+
+.user-initials {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--secondary-dark);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.row-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.row-details h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row-details p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.row-meta span {
+  white-space: nowrap;
+}
+.admin-list-row .item-row-img {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}

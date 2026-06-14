@@ -1,0 +1,115 @@
+.site-sidebar {
+  width: 100%;
+  padding: var(--space-4) !important;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-6);
+}
+
+@media (min-width: 960px) {
+  .site-sidebar {
+    width: 260px;
+    min-height: calc(100vh - 120px);
+    position: sticky;
+    top: 90px;
+    margin-bottom: 0;
+  }
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: var(--space-4);
+}
+
+.sidebar-header h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-header p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.avatar-placeholder {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-icon {
+  color: var(--secondary-light);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.sidebar-link:hover {
+  background-color: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+.sidebar-link.active {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+.admin-sidebar .sidebar-link.active {
+  background-color: var(--secondary);
+}
+
+.lost-indicator {
+  color: var(--color-lost);
+}
+
+.found-indicator {
+  color: var(--color-found);
+}
+
+.sidebar-divider {
+  border: 0;
+  border-top: 1px solid var(--border-color);
+  margin: var(--space-3) 0;
+}
+
+.back-link {
+  color: var(--text-muted);
+}
+.back-link:hover {
+  color: var(--text-primary);
+}

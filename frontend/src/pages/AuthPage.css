@@ -1,0 +1,148 @@
+/* Authentication Pages CSS */
+
+.auth-container {
+  min-height: calc(100vh - 140px);
+  padding: var(--space-12) 0;
+  background: radial-gradient(circle at center, rgba(79, 70, 229, 0.05), transparent 60%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+  padding: var(--space-8) !important;
+}
+
+.auth-header h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.auth-header p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+}
+
+.auth-error-banner {
+  background-color: var(--color-lost-bg);
+  border: 1px solid var(--color-lost);
+  color: var(--color-lost);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: var(--space-6);
+  animation: fadeIn 0.2s ease;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.auth-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.auth-input-wrapper .input-icon {
+  position: absolute;
+  left: var(--space-4);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.auth-input {
+  padding-left: 2.75rem !important;
+}
+
+.password-toggle {
+  position: absolute;
+  right: var(--space-4);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.password-toggle:hover {
+  color: var(--text-primary);
+}
+
+.form-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forgot-password-link {
+  background: transparent;
+  border: none;
+  color: var(--primary-light);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+.auth-submit-btn {
+  width: 100%;
+  padding: var(--space-3) !important;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: var(--space-2);
+}
+
+.quick-login-helpers {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px dashed var(--border-color);
+}
+
+.quick-login-helpers p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.helper-buttons {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.helper-buttons button {
+  flex: 1;
+  padding: var(--space-2) !important;
+  font-size: 0.75rem !important;
+}
+
+.admin-helper-btn:hover {
+  border-color: var(--secondary-light);
+  color: var(--secondary-light);
+}
+
+.auth-footer {
+  margin-top: var(--space-6);
+  font-size: 0.875rem;
+}
+
+.auth-footer a {
+  color: var(--primary-light);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
