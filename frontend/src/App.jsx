@@ -34,11 +34,25 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/items/:id" element={<DetailPage />} />
-          <Route path="/search" element={<SearchPage />} />
+
+          {/* User Protected Routes */}
+          <Route path="/" element={
+            <ProtectedRoute>
+              <LandingPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/items/:id" element={
+            <ProtectedRoute>
+              <DetailPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/search" element={
+            <ProtectedRoute>
+              <SearchPage />
+            </ProtectedRoute>
+          } />
 
           {/* User Protected Routes */}
           <Route path="/dashboard" element={

@@ -26,15 +26,15 @@ export const Header = () => {
   return (
     <header className="site-header">
       <div className="container header-container">
-        <Link to="/" className="logo">
-          <span className="logo-icon">🔍</span>
-          <span className="logo-text">Lost<span className="text-gradient">Found</span></span>
-        </Link>
-
         {/* Mobile menu button */}
         <button className="mobile-menu-toggle btn" onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
+
+        <Link to="/" className="logo">
+          <span className="logo-icon">🔍</span>
+          <span className="logo-text">Lost<span className="text-gradient">Found</span></span>
+        </Link>
 
         {/* Navigation links */}
         <nav className={`nav-menu ${menuOpen ? 'active' : ''}`}>
