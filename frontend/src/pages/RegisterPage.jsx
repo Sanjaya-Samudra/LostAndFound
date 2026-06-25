@@ -7,7 +7,8 @@ import './AuthPage.css';
 
 export const RegisterPage = () => {
   const { register } = useContext(AuthContext);
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,7 +18,7 @@ export const RegisterPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !password || !confirmPassword) {
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
       setError('Please fill in all fields.');
       return;
     }
@@ -30,7 +31,7 @@ export const RegisterPage = () => {
       return;
     }
 
-    const res = register(name, email, password);
+    const res = register(firstName.trim(), lastName.trim(), email, password);
     if (res.success) {
       navigate('/dashboard');
     } else {
@@ -50,18 +51,35 @@ export const RegisterPage = () => {
           {error && <div className="auth-error-banner">{error}</div>}
 
           <form onSubmit={handleSubmit} className="auth-form">
-            <div className="form-group">
-              <label className="form-label">Full Name</label>
-              <div className="auth-input-wrapper">
-                <User className="input-icon" size={18} />
-                <input 
-                  type="text" 
-                  className="form-input auth-input" 
-                  placeholder="e.g. John Doe"
-                  value={name}
-                  onChange={(e) => { setName(e.target.value); setError(''); }}
-                  required
-                />
+            <div className="auth-row">
+              <div className="form-group flex-1">
+                <label className="form-label">First Name</label>
+                <div className="auth-input-wrapper">
+                  <User className="input-icon" size={18} />
+                  <input 
+                    type="text" 
+                    className="form-input auth-input" 
+                    placeholder="e.g. John"
+                    value={firstName}
+                    onChange={(e) => { setFirstName(e.target.value); setError(''); }}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-group flex-1">
+                <label className="form-label">Last Name</label>
+                <div className="auth-input-wrapper">
+                  <User className="input-icon" size={18} />
+                  <input 
+                    type="text" 
+                    className="form-input auth-input" 
+                    placeholder="e.g. Doe"
+                    value={lastName}
+                    onChange={(e) => { setLastName(e.target.value); setError(''); }}
+                    required
+                  />
+                </div>
               </div>
             </div>
 

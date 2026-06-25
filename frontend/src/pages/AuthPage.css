@@ -146,3 +146,22 @@
 .auth-footer a:hover {
   text-decoration: underline;
 }
+
+/* Row styling for side-by-side elements like First & Last Name */
+.auth-row {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.auth-row .form-group.flex-1 {
+  flex: 1;
+  margin-bottom: 0; /* Let auth-row manage spacing or layout */
+}
+
+@media (max-width: 576px) {
+  .auth-row {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+}
+

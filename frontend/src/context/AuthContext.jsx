@@ -36,13 +36,14 @@ export const AuthProvider = ({ children }) => {
     return { success: true, user: userData };
   };
 
-  const register = (name, email, password) => {
+  const register = (firstName, lastName, email, password) => {
     const id = `user-${Date.now()}`;
-    const userData = { id, name, email, role: 'User' };
+    const name = `${firstName} ${lastName}`;
+    const userData = { id, name, firstName, lastName, email, role: 'User' };
     
     // Add to mock users database
     const storedUsers = JSON.parse(localStorage.getItem('lf_users') || '[]');
-    storedUsers.push({ id, name, email, role: 'User', joined: new Date().toISOString().split('T')[0] });
+    storedUsers.push({ id, name, firstName, lastName, email, role: 'User', joined: new Date().toISOString().split('T')[0] });
     localStorage.setItem('lf_users', JSON.stringify(storedUsers));
 
     setUser(userData);
