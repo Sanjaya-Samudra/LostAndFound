@@ -16,7 +16,31 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (email, password) => {
-    // Simple mock authentication check
+    // Check if the user is in our local storage database
+    const storedUsers = JSON.parse(localStorage.getItem('lf_users') || '[]');
+    const registeredUser = storedUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+    if (registeredUser) {
+      if (registeredUser.password !== password) {
+        return { success: false, error: 'invalid_credentials' };
+      }
+      if (registeredUser.isVerified === false) {
+        return { success: false, error: 'unverified' };
+      }
+      const userData = { 
+        id: registeredUser.id, 
+        name: registeredUser.name, 
+        firstName: registeredUser.firstName,
+        lastName: registeredUser.lastName,
+        email: registeredUser.email, 
+        role: registeredUser.role 
+      };
+      setUser(userData);
+      localStorage.setItem('lf_current_user', JSON.stringify(userData));
+      return { success: true, user: userData };
+    }
+
+    // Simple mock authentication check for built-in demo accounts
     let name = 'Alice Johnson';
     let id = 'user-1';
     let role = 'User';
@@ -28,6 +52,8 @@ export const AuthProvider = ({ children }) => {
     } else if (email === 'bob@example.com') {
       name = 'Bob Smith';
       id = 'user-2';
+    } else {
+      return { success: false, error: 'invalid_credentials' };
     }
 
     const userData = { id, name, email, role };
@@ -39,16 +65,43 @@ export const AuthProvider = ({ children }) => {
   const register = (firstName, lastName, email, password) => {
     const id = `user-${Date.now()}`;
     const name = `${firstName} ${lastName}`;
-    const userData = { id, name, firstName, lastName, email, role: 'User' };
     
-    // Add to mock users database
+    // Add to mock users database (unverified by default)
     const storedUsers = JSON.parse(localStorage.getItem('lf_users') || '[]');
-    storedUsers.push({ id, name, firstName, lastName, email, role: 'User', joined: new Date().toISOString().split('T')[0] });
+    
+    // Check if email already exists
+    if (storedUsers.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+      return { success: false, error: 'email_exists' };
+    }
+
+    const newUser = { 
+      id, 
+      name, 
+      firstName, 
+      lastName, 
+      email, 
+      password, // Save password for simulated login checks
+      role: 'User', 
+      isVerified: false, // Default is unverified
+      joined: new Date().toISOString().split('T')[0] 
+    };
+
+    storedUsers.push(newUser);
     localStorage.setItem('lf_users', JSON.stringify(storedUsers));
 
-    setUser(userData);
-    localStorage.setItem('lf_current_user', JSON.stringify(userData));
-    return { success: true, user: userData };
+    // Do NOT call setUser yet because the user needs to verify their email
+    return { success: true, user: newUser };
+  };
+
+  const verifyUserEmail = (email) => {
+    const storedUsers = JSON.parse(localStorage.getItem('lf_users') || '[]');
+    const updatedUsers = storedUsers.map(u => {
+      if (u.email.toLowerCase() === email.toLowerCase()) {
+        return { ...u, isVerified: true };
+      }
+      return u;
+    });
+    localStorage.setItem('lf_users', JSON.stringify(updatedUsers));
   };
 
   const logout = () => {
@@ -59,7 +112,7 @@ export const AuthProvider = ({ children }) => {
   const isAdmin = user?.role === 'Admin';
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, isAdmin, loading }}>
+    <AuthContext.Provider value={{ user, login, register, verifyUserEmail, logout, isAdmin, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );

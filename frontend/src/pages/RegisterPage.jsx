@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import LayoutWrapper from '../layout/LayoutWrapper';
 import { User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import CaptchaWidget from '../components/CaptchaWidget';
 import './AuthPage.css';
 
 export const RegisterPage = () => {
@@ -13,6 +14,7 @@ export const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [recaptchaVerified, setRecaptchaVerified] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -30,10 +32,14 @@ export const RegisterPage = () => {
       setError('Password must be at least 6 characters long.');
       return;
     }
+    if (!recaptchaVerified) {
+      setError('Please verify that you are not a robot.');
+      return;
+    }
 
     const res = register(firstName.trim(), lastName.trim(), email, password);
     if (res.success) {
-      navigate('/dashboard');
+      navigate(`/verify-email?email=${encodeURIComponent(email)}`);
     } else {
       setError('Registration failed. Please try again.');
     }
@@ -134,6 +140,8 @@ export const RegisterPage = () => {
                 />
               </div>
             </div>
+
+            <CaptchaWidget onVerify={setRecaptchaVerified} />
 
             <button type="submit" className="btn btn-primary auth-submit-btn">
               Register

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import LayoutWrapper from '../layout/LayoutWrapper';
 import { Mail, Lock, Eye, EyeOff, ShieldCheck } from 'lucide-react';
@@ -7,14 +7,23 @@ import './AuthPage.css';
 
 export const LoginPage = () => {
   const { login } = useContext(AuthContext);
+  const [searchParams] = useSearchParams();
+  const isVerifiedFromParam = searchParams.get('verified') === 'true';
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [showSuccess, setShowSuccess] = useState(isVerifiedFromParam);
+  const [isUnverified, setIsUnverified] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
+    setIsUnverified(false);
+    setShowSuccess(false);
+
     if (!email || !password) {
       setError('Please fill in all fields.');
       return;
@@ -28,7 +37,11 @@ export const LoginPage = () => {
         navigate('/dashboard');
       }
     } else {
-      setError('Invalid login credentials.');
+      if (res.error === 'unverified') {
+        setIsUnverified(true);
+      } else {
+        setError('Invalid login credentials.');
+      }
     }
   };
 
@@ -42,6 +55,21 @@ export const LoginPage = () => {
           </div>
 
           {error && <div className="auth-error-banner">{error}</div>}
+          
+          {showSuccess && (
+            <div className="auth-success-banner">
+              Email verified successfully! You can now sign in.
+            </div>
+          )}
+
+          {isUnverified && (
+            <div className="auth-error-banner">
+              Your email is not verified.{' '}
+              <Link to={`/verify-email?email=${encodeURIComponent(email)}`} style={{ color: 'white', textDecoration: 'underline', fontWeight: 600 }}>
+                Verify now
+              </Link>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
