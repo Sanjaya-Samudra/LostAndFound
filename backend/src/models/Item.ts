@@ -44,9 +44,4 @@ const itemSchema = new mongoose.Schema({
   },
 });
 
-itemSchema.index({
-  title: "text",
-  description: "text",
-});
-
 export default mongoose.model("Item", itemSchema);

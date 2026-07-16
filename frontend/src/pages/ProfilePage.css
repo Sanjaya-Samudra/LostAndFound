@@ -1,0 +1,121 @@
+/* Profile Page CSS */
+
+.profile-root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.profile-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: var(--space-4);
+}
+
+.profile-header h2 {
+  font-size: 1.5rem;
+  font-weight: 850;
+  color: var(--text-primary);
+}
+
+.profile-header p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+@media (min-width: 1200px) {
+  .profile-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .full-width-block {
+    grid-column: 1 / -1;
+  }
+}
+
+.profile-form-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.profile-form-block h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: var(--space-2);
+}
+
+.profile-success-banner {
+  background-color: var(--color-found-bg);
+  border: 1px solid var(--color-found);
+  color: var(--color-found);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  animation: fadeIn 0.2s ease;
+}
+
+/* Preferences Switch items */
+.preferences-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.preference-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.preference-toggle-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: rgba(15, 23, 42, 0.15);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+[data-theme='light'] .preference-toggle-item {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.preference-toggle-item:hover {
+  background-color: var(--bg-card-hover);
+}
+
+.pref-title {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+
+.pref-desc {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.preference-toggle-item input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}

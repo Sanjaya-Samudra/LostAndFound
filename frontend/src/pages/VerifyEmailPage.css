@@ -1,0 +1,172 @@
+/* VerifyEmailPage.css */
+
+.verify-container {
+  min-height: calc(100vh - 140px);
+  padding: var(--space-12) 0;
+  background: radial-gradient(circle at center, rgba(79, 70, 229, 0.05), transparent 60%);
+}
+
+.verify-card {
+  width: 100%;
+  max-width: 480px;
+  padding: var(--space-8) !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.verify-icon-wrapper {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  background: rgba(13, 148, 136, 0.1);
+  color: var(--primary-light);
+  margin-bottom: var(--space-6);
+  border: 1px solid rgba(13, 148, 136, 0.2);
+}
+
+.verify-card h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+}
+
+.verify-instructions {
+  font-size: 0.925rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+}
+
+.highlight-email {
+  color: var(--text-primary);
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.verify-success-banner {
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid var(--color-found);
+  color: var(--color-found);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.resend-section {
+  margin-bottom: var(--space-8);
+  width: 100%;
+}
+
+.resend-btn {
+  width: 100%;
+  padding: var(--space-3) !important;
+  font-weight: 600;
+}
+
+.resend-countdown {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: var(--space-2);
+}
+
+/* Dev Sandbox block styling */
+.dev-sandbox {
+  width: 100%;
+  padding: var(--space-4);
+  border: 1px dashed rgba(79, 70, 229, 0.3);
+  background: rgba(79, 70, 229, 0.03);
+  border-radius: var(--radius-md);
+  text-align: left;
+}
+
+.sandbox-header {
+  margin-bottom: var(--space-3);
+}
+
+.sandbox-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--secondary-light);
+}
+
+.sandbox-badge {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  background: rgba(79, 70, 229, 0.15);
+  color: var(--secondary-light);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.sandbox-description {
+  font-size: 0.775rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: var(--space-4);
+}
+
+.sandbox-verify-btn {
+  width: 100%;
+  font-size: 0.875rem !important;
+  padding: var(--space-2) !important;
+  background-color: var(--secondary);
+  color: white;
+  border: none;
+}
+
+.sandbox-verify-btn:hover {
+  background-color: var(--secondary-light);
+}
+
+.sandbox-success-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-2) 0;
+  text-align: center;
+}
+
+.sandbox-success-state h4 {
+  font-size: 1rem;
+  color: var(--color-found);
+  margin-top: var(--space-2);
+}
+
+.sandbox-success-state p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Checkmark animation */
+.checkmark-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--color-found);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-found);
+}
+
+.checkmark-svg {
+  width: 24px;
+  height: 24px;
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  animation: draw-check 0.4s ease-out forwards 0.2s;
+}

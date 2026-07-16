@@ -1,0 +1,28 @@
+.layout-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.dashboard-layout-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  flex: 1;
+}
+
+.dashboard-content-panel {
+  flex: 1;
+  width: 100%;
+}
+
+@media (min-width: 960px) {
+  .dashboard-layout-container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
