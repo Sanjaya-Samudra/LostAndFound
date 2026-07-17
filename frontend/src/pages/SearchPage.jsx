@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import { Select } from '../components/Select';
 import LayoutWrapper from '../layout/LayoutWrapper';
-import { Search, MapPin, Calendar, Grid, List, Tag, Eye } from 'lucide-react';
+import { Search, MapPin, Calendar, Grid, List, Tag, Eye, ArrowUpDown, CalendarRange } from 'lucide-react';
 import './SearchPage.css';
 
 export const SearchPage = () => {
@@ -14,8 +14,12 @@ export const SearchPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'All');
   const [selectedStatus, setSelectedStatus] = useState(searchParams.get('status') || 'All');
   const [locationQuery, setLocationQuery] = useState('');
+  const [sortBy, setSortBy] = useState('newest');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
   const [viewMode, setViewMode] = useState('grid');
   const [items, setItems] = useState([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const categories = ['All', 'Electronics', 'Documents', 'Clothing', 'Other'];
@@ -23,15 +27,20 @@ export const SearchPage = () => {
   const performFilter = async () => {
     setLoading(true);
     try {
-      const results = await api.getItems({
+      const result = await api.getItems({
         search: searchQuery,
         category: selectedCategory,
-        status: selectedStatus === 'claimed' ? 'found' : selectedStatus,
+        status: selectedStatus,
         location: locationQuery,
+        sort: sortBy,
+        dateFrom: dateFrom || undefined,
+        dateTo: dateTo || undefined,
       });
-      setItems(results);
+      setItems(result.items);
+      setTotal(result.total);
     } catch {
       setItems([]);
+      setTotal(0);
     } finally {
       setLoading(false);
     }
@@ -39,7 +48,7 @@ export const SearchPage = () => {
 
   useEffect(() => {
     performFilter();
-  }, [searchParams, locationQuery, selectedStatus, selectedCategory]);
+  }, [searchParams, locationQuery, selectedStatus, selectedCategory, sortBy, dateFrom, dateTo]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -55,6 +64,9 @@ export const SearchPage = () => {
     setSelectedCategory('All');
     setSelectedStatus('All');
     setLocationQuery('');
+    setSortBy('newest');
+    setDateFrom('');
+    setDateTo('');
     setSearchParams({});
   };
 
@@ -121,11 +133,39 @@ export const SearchPage = () => {
                 />
               </div>
             </div>
+
+            <div className="filter-group">
+              <label className="form-label">Sort By</label>
+              <Select
+                value={sortBy}
+                onChange={setSortBy}
+                options={[
+                  { value: 'newest', label: 'Newest First' },
+                  { value: 'oldest', label: 'Oldest First' },
+                  { value: 'title', label: 'Alphabetical' },
+                ]}
+                placeholder="Sort order"
+              />
+            </div>
+
+            <div className="filter-group">
+              <label className="form-label"><CalendarRange size={14} /> Date Range</label>
+              <div className="filter-date-column">
+                <div className="filter-date-field">
+                  <span className="filter-date-label">From</span>
+                  <input type="date" className="filter-date-input" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} />
+                </div>
+                <div className="filter-date-field">
+                  <span className="filter-date-label">To</span>
+                  <input type="date" className="filter-date-input" value={dateTo} onChange={(e) => setDateTo(e.target.value)} />
+                </div>
+              </div>
+            </div>
           </aside>
 
           <section className="search-results-pane">
             <div className="results-header">
-              <p className="results-count">Showing <strong>{items.length}</strong> items</p>
+              <p className="results-count">Showing <strong>{items.length}</strong> of {total} items</p>
               <div className="view-toggle-buttons">
                 <button
                   className={`btn btn-outline btn-icon ${viewMode === 'grid' ? 'active-toggle' : ''}`}
