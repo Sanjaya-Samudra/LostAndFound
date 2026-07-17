@@ -7,6 +7,12 @@ import itemRoutes from "./routes/itemRoutes";
 import adminRoutes from "./routes/adminRoutes";
 import uploadRoutes from "./routes/uploadRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
+import activityLogRoutes from "./routes/activityLogRoutes";
+import claimRoutes from "./routes/claimRoutes";
+import messageRoutes from "./routes/messageRoutes";
+import reportRoutes from "./routes/reportRoutes";
+import categoryRoutes from "./routes/categoryRoutes";
+import locationRoutes from "./routes/locationRoutes";
 import errorHandler from "./middleware/errorHandler";
 dotenv.config();
 
@@ -26,6 +32,12 @@ app.use("/api/items", itemRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/admin/activity-logs", activityLogRoutes);
+app.use("/api/claims", claimRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/reports", reportRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/locations", locationRoutes);
 
 const PORT = process.env.PORT || 5000;
 

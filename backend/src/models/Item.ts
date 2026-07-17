@@ -23,7 +23,7 @@ const itemSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ["open", "resolved"],
+    enum: ["open", "resolved", "archived"],
     default: "open",
   },
 
@@ -37,6 +37,8 @@ const itemSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+
+  expiresAt: { type: Date, default: () => new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) },
 
   createdAt: {
     type: Date,

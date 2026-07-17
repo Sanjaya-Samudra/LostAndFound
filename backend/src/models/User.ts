@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
     enum: ["student", "admin"],
     default: "student",
   },
+  suspended: { type: Boolean, default: false },
+  bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
   createdAt: {
     type: Date,
     default: Date.now,
