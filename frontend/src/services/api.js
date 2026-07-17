@@ -201,11 +201,17 @@ export const api = {
       else if (filters.status === 'found') params.append('type', 'found');
     }
     if (filters.location) params.append('location', filters.location);
+    if (filters.sort) params.append('sort', filters.sort);
+    if (filters.dateFrom) params.append('dateFrom', filters.dateFrom);
+    if (filters.dateTo) params.append('dateTo', filters.dateTo);
     const query = params.toString();
     const data = await handleResponse(
       await fetch(`/api/items${query ? `?${query}` : ''}`)
     );
-    return data.map(toFrontendItem);
+    if (data.items) {
+      return { items: data.items.map(toFrontendItem), total: data.total, page: data.page, pages: data.pages };
+    }
+    return { items: data.map(toFrontendItem), total: data.length, page: 1, pages: 1 };
   },
 
   getItemById: async (id) => {
@@ -338,6 +344,257 @@ export const api = {
     await handleResponse(
       await fetch('/api/notifications/read-all', {
         method: 'PUT',
+        headers: getAuthHeaders(),
+      })
+    );
+  },
+
+  getActivityLogs: async (limit = 100) => {
+    const data = await handleResponse(
+      await fetch(`/api/admin/activity-logs?limit=${limit}`, { headers: getAuthHeaders() })
+    );
+    return data.map((log) => ({
+      id: log._id,
+      action: log.action,
+      adminName: log.adminName,
+      targetType: log.targetType,
+      targetId: log.targetId,
+      targetName: log.targetName,
+      details: log.details,
+      createdAt: log.createdAt ? new Date(log.createdAt).toISOString().split('T')[0] : '',
+    }));
+  },
+
+  downloadCsv: async (type) => {
+    const res = await fetch(`/api/admin/reports/${type}/csv`, { headers: getAuthHeaders() });
+    if (!res.ok) throw new Error('Download failed');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${type}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  },
+
+  forgotPassword: async (email) => {
+    return handleResponse(
+      await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+    );
+  },
+
+  resetPassword: async (token, password) => {
+    return handleResponse(
+      await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, password }),
+      })
+    );
+  },
+
+  toggleBookmark: async (itemId) => {
+    return handleResponse(
+      await fetch(`/api/items/${itemId}/bookmark`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+      })
+    );
+  },
+
+  getBookmarks: async () => {
+    const data = await handleResponse(
+      await fetch('/api/items/bookmarks', { headers: getAuthHeaders() })
+    );
+    return data.map(toFrontendItem);
+  },
+
+  startConversation: async (recipientId, itemId, text) => {
+    return handleResponse(
+      await fetch('/api/messages/conversations', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ recipientId, itemId, text }),
+      })
+    );
+  },
+
+  getConversations: async () => {
+    return handleResponse(
+      await fetch('/api/messages/conversations', { headers: getAuthHeaders() })
+    );
+  },
+
+  getMessages: async (conversationId) => {
+    return handleResponse(
+      await fetch(`/api/messages/conversations/${conversationId}`, { headers: getAuthHeaders() })
+    );
+  },
+
+  sendMessage: async (conversationId, text) => {
+    return handleResponse(
+      await fetch(`/api/messages/conversations/${conversationId}`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ text }),
+      })
+    );
+  },
+
+  getUnreadMessages: async () => {
+    return handleResponse(
+      await fetch('/api/messages/unread', { headers: getAuthHeaders() })
+    );
+  },
+
+  createClaim: async (itemId, description, proofDetails) => {
+    return handleResponse(
+      await fetch('/api/claims', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ itemId, description, proofDetails }),
+      })
+    );
+  },
+
+  getMyClaims: async () => {
+    return handleResponse(
+      await fetch('/api/claims/my', { headers: getAuthHeaders() })
+    );
+  },
+
+  getItemClaims: async (itemId) => {
+    return handleResponse(
+      await fetch(`/api/claims/item/${itemId}`, { headers: getAuthHeaders() })
+    );
+  },
+
+  updateClaimStatus: async (claimId, status) => {
+    return handleResponse(
+      await fetch(`/api/claims/${claimId}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ status }),
+      })
+    );
+  },
+
+  getAllClaims: async () => {
+    return handleResponse(
+      await fetch('/api/claims/all', { headers: getAuthHeaders() })
+    );
+  },
+
+  submitReport: async (targetType, targetId, reason, description) => {
+    return handleResponse(
+      await fetch('/api/reports', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ targetType, targetId, reason, description }),
+      })
+    );
+  },
+
+  getReports: async () => {
+    return handleResponse(
+      await fetch('/api/reports', { headers: getAuthHeaders() })
+    );
+  },
+
+  resolveReport: async (id) => {
+    return handleResponse(
+      await fetch(`/api/reports/${id}/resolve`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+      })
+    );
+  },
+
+  suspendUser: async (id) => {
+    return handleResponse(
+      await fetch(`/api/admin/users/${id}/suspend`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+      })
+    );
+  },
+
+  unsuspendUser: async (id) => {
+    return handleResponse(
+      await fetch(`/api/admin/users/${id}/unsuspend`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+      })
+    );
+  },
+
+  bulkDeleteItems: async (ids) => {
+    return handleResponse(
+      await fetch('/api/admin/bulk-delete-items', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ ids }),
+      })
+    );
+  },
+
+  bulkDeleteUsers: async (ids) => {
+    return handleResponse(
+      await fetch('/api/admin/bulk-delete-users', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ ids }),
+      })
+    );
+  },
+
+  getCategories: async () => {
+    return handleResponse(await fetch('/api/categories'));
+  },
+
+  createCategory: async (name) => {
+    return handleResponse(
+      await fetch('/api/categories', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ name }),
+      })
+    );
+  },
+
+  deleteCategory: async (id) => {
+    return handleResponse(
+      await fetch(`/api/categories/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders(),
+      })
+    );
+  },
+
+  getLocations: async () => {
+    return handleResponse(await fetch('/api/locations'));
+  },
+
+  createLocation: async (name) => {
+    return handleResponse(
+      await fetch('/api/locations', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ name }),
+      })
+    );
+  },
+
+  deleteLocation: async (id) => {
+    return handleResponse(
+      await fetch(`/api/locations/${id}`, {
+        method: 'DELETE',
         headers: getAuthHeaders(),
       })
     );

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 import LayoutWrapper from '../../layout/LayoutWrapper';
-import { Shield, ArrowRight, Calendar } from 'lucide-react';
+import { ArrowRight, Calendar, Download } from 'lucide-react';
 import './AdminOverview.css';
 
 export const AdminOverview = () => {
-  const [stats, setStats] = useState({ totalItems: 0, totalUsers: 0, lostCount: 0, foundCount: 0, claimedCount: 0, successRate: 0 });
+  const [stats, setStats] = useState({ totalItems: 0, totalUsers: 0, lostCount: 0, foundCount: 0, claimedCount: 0, archivedCount: 0, suspendedCount: 0, claimsCount: 0, pendingClaims: 0, reportsCount: 0, successRate: 0 });
   const [recentUsers, setRecentUsers] = useState([]);
   const [recentItems, setRecentItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ export const AdminOverview = () => {
     ]).then(([fetchedStats, users, items]) => {
       setStats(fetchedStats);
       setRecentUsers(users.slice(0, 4));
-      setRecentItems(items.slice(0, 3));
+      setRecentItems((items.items || items).slice(0, 3));
     }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
@@ -48,7 +48,6 @@ export const AdminOverview = () => {
             <h2>Admin Console</h2>
             <p>System monitoring, user audits, and item moderation controls.</p>
           </div>
-          <span className="admin-badge"><Shield size={14} /> Admin Mode</span>
         </div>
 
         <div className="admin-layout">
@@ -76,15 +75,15 @@ export const AdminOverview = () => {
               </div>
             </div>
 
-            <div className="chart-details-row">
-              <div>
-                <p className="metric-label">Total Listings</p>
-                <p className="metric-value">{stats.totalItems}</p>
-              </div>
-              <div>
-                <p className="metric-label">Success Rate</p>
-                <p className="metric-value text-found-label">{stats.successRate}%</p>
-              </div>
+            <div className="chart-details-row" style={{ flexWrap: 'wrap', gap: 12 }}>
+              <div><p className="metric-label">Total Listings</p><p className="metric-value">{stats.totalItems}</p></div>
+              <div><p className="metric-label">Archived</p><p className="metric-value" style={{ fontSize: '1rem' }}>{stats.archivedCount}</p></div>
+              <div><p className="metric-label">Success Rate</p><p className="metric-value text-found-label">{stats.successRate}%</p></div>
+            </div>
+            <div className="flex items-center gap-6 mt-4 pt-4" style={{ borderTop: '1px solid var(--border-color)' }}>
+              <div><p className="metric-label">Suspended Users</p><p className="metric-value" style={{ fontSize: '1rem', color: 'var(--color-lost)' }}>{stats.suspendedCount}</p></div>
+              <div><p className="metric-label">Pending Claims</p><p className="metric-value" style={{ fontSize: '1rem', color: 'var(--color-claimed)' }}>{stats.pendingClaims}</p></div>
+              <div><p className="metric-label">Open Reports</p><p className="metric-value" style={{ fontSize: '1rem', color: 'var(--color-lost)' }}>{stats.reportsCount}</p></div>
             </div>
           </div>
 
@@ -92,9 +91,14 @@ export const AdminOverview = () => {
             <div className="admin-list-card glass-card">
               <div className="card-header-row">
                 <h3>Recent Users</h3>
-                <button className="btn btn-outline btn-sm" onClick={() => navigate('/admin/users')}>
-                  View All <ArrowRight size={12} />
-                </button>
+                <div className="flex items-center gap-2">
+                  <button className="btn btn-outline btn-sm" onClick={() => api.downloadCsv('users')} title="Export CSV">
+                    <Download size={12} /> CSV
+                  </button>
+                  <button className="btn btn-outline btn-sm" onClick={() => navigate('/admin/users')}>
+                    View All <ArrowRight size={12} />
+                  </button>
+                </div>
               </div>
               <div className="list-container">
                 {recentUsers.map(user => (
@@ -118,9 +122,14 @@ export const AdminOverview = () => {
             <div className="admin-list-card glass-card">
               <div className="card-header-row">
                 <h3>Recent Items Details</h3>
-                <button className="btn btn-outline btn-sm" onClick={() => navigate('/admin/items')}>
-                  View All <ArrowRight size={12} />
-                </button>
+                <div className="flex items-center gap-2">
+                  <button className="btn btn-outline btn-sm" onClick={() => api.downloadCsv('items')} title="Export CSV">
+                    <Download size={12} /> CSV
+                  </button>
+                  <button className="btn btn-outline btn-sm" onClick={() => navigate('/admin/items')}>
+                    View All <ArrowRight size={12} />
+                  </button>
+                </div>
               </div>
               <div className="list-container">
                 {recentItems.map(item => (

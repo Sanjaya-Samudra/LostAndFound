@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import LayoutWrapper from '../../layout/LayoutWrapper';
-import { Search, Eye, CheckCircle, Trash2, Edit3, X } from 'lucide-react';
+import { Search, Eye, CheckCircle, Trash2, Edit3, X, Download } from 'lucide-react';
 
 export const AdminItemsTable = () => {
   const [items, setItems] = useState([]);
@@ -18,8 +18,8 @@ export const AdminItemsTable = () => {
   const fetchItems = async () => {
     setLoading(true);
     try {
-      const data = await api.getItems({ search: searchQuery });
-      setItems(data);
+      const result = await api.getItems({ search: searchQuery });
+      setItems(result.items || result);
     } catch {
       setItems([]);
     } finally {
@@ -74,6 +74,9 @@ export const AdminItemsTable = () => {
             <h2>Manage Reported Items</h2>
             <p>Monitor reported lost and found belongings, edit content, and moderate listings.</p>
           </div>
+          <button className="btn btn-outline btn-sm" onClick={() => api.downloadCsv('items')}>
+            <Download size={14} /> Export CSV
+          </button>
         </div>
 
         <div className="search-header-form glass-card mb-6">

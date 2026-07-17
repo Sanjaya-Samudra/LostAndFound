@@ -3,7 +3,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { api } from '../../services/api';
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import LayoutWrapper from '../../layout/LayoutWrapper';
-import { Search, Trash2 } from 'lucide-react';
+import { Search, Trash2, Download, Ban, CheckCircle } from 'lucide-react';
 
 export const AdminUsersTable = () => {
   const { user: currentUser } = useContext(AuthContext);
@@ -37,6 +37,14 @@ export const AdminUsersTable = () => {
     } catch {}
   };
 
+  const handleSuspend = async (id) => {
+    try { await api.suspendUser(id); fetchUsers(); } catch {}
+  };
+
+  const handleUnsuspend = async (id) => {
+    try { await api.unsuspendUser(id); fetchUsers(); } catch {}
+  };
+
   return (
     <LayoutWrapper type="admin">
       <div className="admin-root animate-fade-in">
@@ -45,6 +53,9 @@ export const AdminUsersTable = () => {
             <h2>Manage Users</h2>
             <p>View registered accounts and moderate users.</p>
           </div>
+          <button className="btn btn-outline btn-sm" onClick={() => api.downloadCsv('users')}>
+            <Download size={14} /> Export CSV
+          </button>
         </div>
 
         <div className="search-header-form glass-card mb-6">
@@ -72,26 +83,39 @@ export const AdminUsersTable = () => {
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
+                  <th>Status</th>
                   <th>Joined</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map(u => (
-                  <tr key={u.id}>
+                  <tr key={u.id} className={u.suspended ? 'opacity-50' : ''}>
                     <td><div className="flex items-center gap-2 font-semibold"><span>{u.name}</span></div></td>
                     <td>{u.email}</td>
                     <td><span className={`status-badge-inline ${u.role === 'Admin' ? 'claimed' : 'found'}`}>{u.role}</span></td>
+                    <td><span className={u.suspended ? 'text-lost-label' : 'text-found-label'}>{u.suspended ? 'Suspended' : 'Active'}</span></td>
                     <td>{u.joined}</td>
                     <td>
-                      <button
-                        className="btn btn-outline btn-sm danger-action btn-icon"
-                        onClick={() => setDeleteTarget(u)}
-                        title="Delete User"
-                        disabled={u.id === currentUser?.id}
-                      >
-                        <Trash2 size={14} />
-                      </button>
+                      <div className="flex items-center gap-2">
+                        {u.suspended ? (
+                          <button className="btn btn-outline btn-sm success-action btn-icon" onClick={() => handleUnsuspend(u.id)} title="Unsuspend">
+                            <CheckCircle size={14} />
+                          </button>
+                        ) : (
+                          <button className="btn btn-outline btn-sm btn-icon" onClick={() => handleSuspend(u.id)} title="Suspend" disabled={u.id === currentUser?.id}>
+                            <Ban size={14} />
+                          </button>
+                        )}
+                        <button
+                          className="btn btn-outline btn-sm danger-action btn-icon"
+                          onClick={() => setDeleteTarget(u)}
+                          title="Delete User"
+                          disabled={u.id === currentUser?.id}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
