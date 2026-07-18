@@ -18,7 +18,7 @@ jobs:
           cd ../frontend && npm ci
       - name: Run tests
         run: |
-          cd backend && npm test
+          cd backend &ß& npm test
           cd ../frontend && npm test
       - name: Build
         run: |
