@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"No backend tests configured\"",
+    "test": "echo \"No backend tests configured\" && exit 0",
     "dev": "ts-node src/index.ts",
     "start": "ts-node src/index.ts",
     "build": "tsc",
