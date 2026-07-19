@@ -191,3 +191,7 @@ Live URLs:
 | Sprint 4 | Admin — dashboard, user/ item management | Week 6-7 |
 | Sprint 5 | DevOps — Docker, CI/CD pipeline | Week 8-9 |
 | Sprint 6 | Final — testing, deployment, submission | Week 10-12 |
+
+## Live Links
+frontend link: https://lostandfound-1-4or3.onrender.com 
+backend link: https://lostandfound-dr6y.onrender.com 
