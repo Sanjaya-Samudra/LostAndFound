@@ -20,7 +20,7 @@ A full-stack web application for university students to report and search lost a
 
 ## Prerequisites
 
-- Node.js 18 LTS
+- Node.js 20 LTS
 - npm
 - Docker Desktop (optional, for containerized setup)
 - MongoDB Atlas account
